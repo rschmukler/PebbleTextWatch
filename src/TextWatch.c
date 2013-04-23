@@ -181,8 +181,8 @@ void display_time(PblTm *t)
 
 	//check if need to update day or date
 	if(strcmp(topDayLayer.text, WEEKDAYS[t->tm_wday]) != 0) {
-    	text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
-    	text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
+    		text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
+    		text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
 	}
 }
 
