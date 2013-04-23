@@ -9,7 +9,7 @@
 
 #define MY_UUID { 0x49, 0x6E, 0x04, 0xAD, 0x13, 0x2A, 0x48, 0xAB, 0xB1, 0x65, 0x7F, 0xF4, 0xA9, 0x98, 0x72, 0xD2 }
 PBL_APP_INFO(MY_UUID,
-             "TextWatch", "Wip Interactive",
+             "Text With Date", "Paul Pullen",
              1, 0,
              DEFAULT_MENU_ICON,
 #if DEBUG
@@ -37,6 +37,54 @@ PblTm t;
 static char line1Str[2][BUFFER_SIZE];
 static char line2Str[2][BUFFER_SIZE];
 static char line3Str[2][BUFFER_SIZE];
+
+TextLayer topDayLayer;
+TextLayer bottomDayLayer;
+
+static const char* const WEEKDAYS[] = {
+"sunday",
+"monday",
+"tuesday",
+"wednesday",
+"thursday",
+"friday",
+"saturday"
+};
+
+static const char* const DAYS[] = {
+"",
+"the first",
+"the second",
+"the third",
+"the fourth",
+"the fifth",
+"the sixth",
+"the seventh",
+"the eighth",
+"the ninth",
+"the tenth",
+"the eleventh",
+"the twelfth",
+"the thirteenth",
+"the fourteenth",
+"the fifteenth",
+"the sixteenth",
+"the seventeenth",
+"the eighteenth",
+"the nineteenth",
+"the twentieth",
+"the twenty-first",
+"the twenty-second",
+"the twenty-third",
+"the twenty-fourth",
+"the twenty-fifth",
+"the twenty-sixth",
+"the twenty-seventh",
+"the twenty-eighth",
+"the twenty-ninth",
+"the thirtieth",
+"the thirty-first"
+};
 
 static bool textInitialized = false;
 
@@ -118,7 +166,7 @@ void display_time(PblTm *t)
 	char textLine1[BUFFER_SIZE];
 	char textLine2[BUFFER_SIZE];
 	char textLine3[BUFFER_SIZE];
-	
+
 	time_to_3words(t->tm_hour, t->tm_min, textLine1, textLine2, textLine3, BUFFER_SIZE);
 	
 	if (needToUpdateLine(&line1, line1Str, textLine1)) {
@@ -130,18 +178,26 @@ void display_time(PblTm *t)
 	if (needToUpdateLine(&line3, line3Str, textLine3)) {
 		updateLineTo(&line3, line3Str, textLine3);	
 	}
+
+	//check if need to update day or date
+	if(strcmp(topDayLayer.text, WEEKDAYS[t->tm_wday]) != 0) {
+    	text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
+    	text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
+	}
 }
 
 // Update screen without animation first time we start the watchface
 void display_initial_time(PblTm *t)
 {
 	time_to_3words(t->tm_hour, t->tm_min, line1Str[0], line2Str[0], line3Str[0], BUFFER_SIZE);
+
+    text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
+    text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
 	
 	text_layer_set_text(&line1.currentLayer, line1Str[0]);
 	text_layer_set_text(&line2.currentLayer, line2Str[0]);
 	text_layer_set_text(&line3.currentLayer, line3Str[0]);
 }
-
 
 // Configure the first line of text
 void configureBoldLayer(TextLayer *textlayer)
@@ -161,6 +217,23 @@ void configureLightLayer(TextLayer *textlayer)
 	text_layer_set_text_alignment(textlayer, GTextAlignmentLeft);
 }
 
+// Configure for top day of week
+void configureDayOfWeek(TextLayer *textlayer)
+{
+	text_layer_set_font(textlayer, fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
+	text_layer_set_text_color(textlayer, GColorWhite);
+	text_layer_set_background_color(textlayer, GColorClear);
+	text_layer_set_text_alignment(textlayer, GTextAlignmentRight);
+}
+
+// Configure for bottom day of month
+void configureDayOfMonth(TextLayer *textlayer)
+{
+	text_layer_set_font(textlayer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+	text_layer_set_text_color(textlayer, GColorWhite);
+	text_layer_set_background_color(textlayer, GColorClear);
+	text_layer_set_text_alignment(textlayer, GTextAlignmentRight);
+}
 
 /** 
  * Debug methods. For quickly debugging enable debug macro on top to transform the watchface into
@@ -183,7 +256,6 @@ void up_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
 	}
 	display_time(&t);
 }
-
 
 void down_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
 	(void)recognizer;
@@ -220,22 +292,30 @@ void handle_init(AppContextRef ctx) {
 	resource_init_current_app(&APP_RESOURCES);
 	
 	// 1st line layers
-	text_layer_init(&line1.currentLayer, GRect(0, 18, 144, 50));
-	text_layer_init(&line1.nextLayer, GRect(144, 18, 144, 50));
+	text_layer_init(&line1.currentLayer, GRect(0, 8, 144, 50));
+	text_layer_init(&line1.nextLayer, GRect(144, 8, 144, 50));
 	configureBoldLayer(&line1.currentLayer);
 	configureBoldLayer(&line1.nextLayer);
 
 	// 2nd layers
-	text_layer_init(&line2.currentLayer, GRect(0, 55, 144, 50));
-	text_layer_init(&line2.nextLayer, GRect(144, 55, 144, 50));
+	text_layer_init(&line2.currentLayer, GRect(0, 45, 144, 50));
+	text_layer_init(&line2.nextLayer, GRect(144, 45, 144, 50));
 	configureLightLayer(&line2.currentLayer);
 	configureLightLayer(&line2.nextLayer);
 
 	// 3rd layers
-	text_layer_init(&line3.currentLayer, GRect(0, 92, 144, 50));
-	text_layer_init(&line3.nextLayer, GRect(144, 92, 144, 50));
+	text_layer_init(&line3.currentLayer, GRect(0, 82, 144, 50));
+	text_layer_init(&line3.nextLayer, GRect(144, 82, 144, 50));
 	configureLightLayer(&line3.currentLayer);
 	configureLightLayer(&line3.nextLayer);
+
+	// top day layer
+	text_layer_init(&topDayLayer, GRect(0, 134, 144, 20));
+	configureDayOfWeek(&topDayLayer);
+
+	// bottom day layer
+	text_layer_init(&bottomDayLayer, GRect(0, 147, 144, 20));
+	configureDayOfMonth(&bottomDayLayer);
 
 	// Configure time on init
 	get_time(&t);
@@ -248,6 +328,8 @@ void handle_init(AppContextRef ctx) {
 	layer_add_child(&window.layer, &line2.nextLayer.layer);
 	layer_add_child(&window.layer, &line3.currentLayer.layer);
 	layer_add_child(&window.layer, &line3.nextLayer.layer);
+	layer_add_child(&window.layer, &topDayLayer.layer);
+	layer_add_child(&window.layer, &bottomDayLayer.layer);
 	
 #if DEBUG
 	// Button functionality
