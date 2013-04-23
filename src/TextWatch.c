@@ -191,8 +191,8 @@ void display_initial_time(PblTm *t)
 {
 	time_to_3words(t->tm_hour, t->tm_min, line1Str[0], line2Str[0], line3Str[0], BUFFER_SIZE);
 
-    text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
-    text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
+    	text_layer_set_text(&topDayLayer, WEEKDAYS[t->tm_wday]);
+    	text_layer_set_text(&bottomDayLayer, DAYS[t->tm_mday]);
 	
 	text_layer_set_text(&line1.currentLayer, line1Str[0]);
 	text_layer_set_text(&line2.currentLayer, line2Str[0]);
