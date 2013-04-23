@@ -12,4 +12,4 @@ Updated with a stylistic date in the bottom-right corner, spelled out in words l
 [Download .pbw](http://www.mypebblefaces.com/view?fID=1350&aName=PEP&pageTitle=Text+with+Small+Date&auID=1585)
 
 Screenshot:  
-![Text watch screenshot](https://www.dropbox.com/s/x7m7dhhxo2j8v7h/textwithdate-screenshot.JPG)
+![Pebble Text Watch with Date](http://d.pr/i/6V2Z.jpg)
