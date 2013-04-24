@@ -121,4 +121,11 @@ void time_to_3words(int hours, int minutes, char *line1, char *line2, char *line
 			pch[0] = 0;
 		}
 	}
+
+  //add o' to minutes if necessary
+  if(minutes > 0 && minutes < 10) {
+    char new_line2[8] = "o'";
+    strcat(new_line2, line2);
+    memcpy(line2, new_line2, strlen(new_line2)+1);
+  }
 }
