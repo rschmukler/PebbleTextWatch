@@ -1,4 +1,4 @@
-Pebble Text Watch With Date
+Pebble (o') Text Watch With Date
 ===========================
 
 On the first launch of Pebble SDK, TextWatch application was not part of the code examples.
