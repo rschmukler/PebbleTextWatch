@@ -9,7 +9,9 @@ A video with the text changing animation can be found here: http://www.youtube.c
 
 Updated with a stylistic date in the bottom-right corner, spelled out in words like the time.
 
+This version prepends an "o'" before single digit minutes per request.  See screenshot below.
+
 [Download .pbw](http://www.mypebblefaces.com/view?fID=1350&aName=PEP&pageTitle=Text+with+Small+Date&auID=1585)
 
 Screenshot:  
-![Pebble Text Watch with Date](http://d.pr/i/6V2Z.jpg)
+![Pebble (o') Text Watch with Date](http://d.pr/i/Vrvo.jpg)
