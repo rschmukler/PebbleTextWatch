@@ -40,7 +40,7 @@ static const char* const TENS[] = {
   "ninety"
 };
 
-static size_t append_number(char* words, int num) {
+static size_t append_number(char* words, int num, int isMinutes) {
   int tens_val = num / 10 % 10;
   int ones_val = num % 10;
 
@@ -57,7 +57,7 @@ static size_t append_number(char* words, int num) {
       strcat(words, " ");
       len += 1;
     }
-  } else if (num < 10 && num > 0) {
+  } else if (isMinutes && num < 10 && num > 0) {
     strcat(words, " oh ");
     len += 4;
   }
@@ -85,11 +85,11 @@ void time_to_words(int hours, int minutes, char* words, size_t length) {
   if (hours == 0 || hours == 12) {
     remaining -= append_string(words, remaining, TEENS[2]);
   } else {
-    remaining -= append_number(words, hours % 12);
+    remaining -= append_number(words, hours % 12, 0);
   }
 
   remaining -= append_string(words, remaining, " ");
-  remaining -= append_number(words, minutes);
+  remaining -= append_number(words, minutes, 1);
   remaining -= append_string(words, remaining, " ");
 }
 
