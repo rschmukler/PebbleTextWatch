@@ -57,6 +57,9 @@ static size_t append_number(char* words, int num) {
       strcat(words, " ");
       len += 1;
     }
+  } else if (num < 10 && num > 0) {
+    strcat(words, " oh ");
+    len += 4;
   }
 
   if (ones_val > 0 || num == 0) {
