@@ -213,7 +213,6 @@ void configureBoldLayer(TextLayer *textlayer)
 void configureLightLayer(TextLayer *textlayer)
 {
 	text_layer_set_font(textlayer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SANSATION_LIGHT_42)));
-	//text_layer_set_font(textlayer, fonts_get_system_font(RESOURCE_ID_FONT_SANSATION_LIGHT_42));
 	text_layer_set_text_color(textlayer, GColorWhite);
 	text_layer_set_background_color(textlayer, GColorClear);
 	text_layer_set_text_alignment(textlayer, GTextAlignmentLeft);
